@@ -1,5 +1,5 @@
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
+  apiKey: "AIzaSyCWsrglwTOWG7KNFWBuUxtAptSdpz-jg0w",
   authDomain: "infinityshop999.firebaseapp.com",
   projectId: "infinityshop999",
   storageBucket: "infinityshop999.firebasestorage.app",
