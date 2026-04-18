@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Catdy Shop</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial;
+  background: linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+}
+
+header{
+  padding:25px;
+  text-align:center;
+  font-size:26px;
+  font-weight:bold;
+  background:#111827;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
+}
+
+.card{
+  background: rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:12px;
+  backdrop-filter: blur(10px);
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn-green{ background:#22c55e; color:white; }
+.btn-blue{ background:#3b82f6; color:white; }
+.btn-red{ background:#ef4444; color:white; }
+
+.shop-item{
+  padding:10px;
+  margin-top:10px;
+  background:rgba(255,255,255,0.08);
+  border-radius:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.shop-item button{
+  width:auto;
+  padding:6px 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+🛒 Catdy Premium Shop
+</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div class="card">
+<h3>👤 Login</h3>
+<input placeholder="username">
+<input type="password" placeholder="password">
+<button class="btn-green">Login</button>
+<button class="btn-blue">Register</button>
+</div>
+
+<!-- WALLET -->
+<div class="card">
+<h3>💰 Wallet: 0 ฿</h3>
+<button class="btn-blue">💳 เติมเงิน</button>
+</div>
+
+<!-- SHOP -->
+<div class="card">
+<h3>🛍️ สินค้า</h3>
+
+<div class="shop-item">
+<span>เติมเกม 100฿</span>
+<button class="btn-green">ซื้อ</button>
+</div>
+
+<div class="shop-item">
+<span>ไอดี ROV 300฿</span>
+<button class="btn-green">ซื้อ</button>
+</div>
+
+<div class="shop-item">
+<span>VIP Package 500฿</span>
+<button class="btn-green">ซื้อ</button>
+</div>
+
+</div>
+
+<!-- HISTORY -->
+<div class="card">
+<h3>📦 ประวัติการซื้อ</h3>
+<p>- ยังไม่มีข้อมูล</p>
+</div>
+
+<!-- ADMIN -->
+<div class="card">
+<h3>🔐 Admin</h3>
+<button class="btn-red">เข้าสู่ระบบแอดมิน</button>
+</div>
+
+</div>
+
+</body
