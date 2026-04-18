@@ -5,6 +5,30 @@
 <title>Mini REXZY System</title>
 
 <style>
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+
+<script>
+// Firebase Config (ของคุณ)
+const firebaseConfig = {
+  apiKey: "AIzaSyCWsrglwTOWG7KNFWBuUxtAptSdpz-jg0w",
+  authDomain: "infinityshop999.firebaseapp.com",
+  projectId: "infinityshop999",
+  storageBucket: "infinityshop999.firebasestorage.app",
+  messagingSenderId: "688652453993",
+  appId: "1:688652453993:web:09cf24ffea0022dbc03af8",
+  measurementId: "G-SNQHGKLZGQ"
+};
+
+// เริ่ม Firebase
+firebase.initializeApp(firebaseConfig);
+
+// ใช้งานระบบ
+const auth = firebase.auth();
+const db = firebase.firestore();
+</script>
 body{
   margin:0;
   font-family:Arial;
