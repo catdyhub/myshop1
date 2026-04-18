@@ -181,7 +181,7 @@ function login(){
   let found = users.find(x=>x.username===u && x.password===p);
 
   if(!found){
-    alert("login ไม่ผ่าน");
+    alert("login ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
     return;
   }
 
