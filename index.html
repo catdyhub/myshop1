@@ -2,251 +2,164 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Mini REXZY System</title>
+<title>Pro Shop Dashboard</title>
 
 <style>
-  <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
-<script>
-// Firebase Config (ของคุณ)
-const firebaseConfig = {
-  apiKey: "AIzaSyCWsrglwTOWG7KNFWBuUxtAptSdpz-jg0w",
-  authDomain: "infinityshop999.firebaseapp.com",
-  projectId: "infinityshop999",
-  storageBucket: "infinityshop999.firebasestorage.app",
-  messagingSenderId: "688652453993",
-  appId: "1:688652453993:web:09cf24ffea0022dbc03af8",
-  measurementId: "G-SNQHGKLZGQ"
-};
-
-// เริ่ม Firebase
-firebase.initializeApp(firebaseConfig);
-
-// ใช้งานระบบ
-const auth = firebase.auth();
-const db = firebase.firestore();
-</script>
-  
 body{
   margin:0;
-  font-family:Arial;
-  background:#0f172a;
+  font-family:'Inter',sans-serif;
+  background: radial-gradient(circle at top,#111827,#0b1220);
+  color:#fff;
+}
+
+/* NAVBAR */
+.nav{
+  display:flex;
+  justify-content:space-between;
+  padding:18px 25px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* CONTAINER */
+.container{
+  max-width:1000px;
+  margin:auto;
+  padding:25px;
+}
+
+/* CARD */
+.card{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:18px;
+  border-radius:16px;
+  margin-top:15px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* INPUT */
+input{
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+  outline:none;
+  background:rgba(255,255,255,0.1);
   color:white;
 }
 
-header{
-  background:#111827;
-  padding:20px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:20px;
-}
-
-.card{
-  background:rgba(255,255,255,0.05);
-  padding:15px;
-  margin-bottom:15px;
-  border-radius:10px;
-}
-
-input{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  border-radius:6px;
-  border:none;
-}
-
+/* BUTTON */
 button{
   width:100%;
-  padding:10px;
+  padding:12px;
   margin-top:10px;
   border:none;
-  border-radius:6px;
-  font-weight:bold;
+  border-radius:10px;
+  font-weight:600;
   cursor:pointer;
+  transition:0.2s;
 }
 
-.green{background:#22c55e;color:white;}
+button:hover{
+  transform:scale(1.03);
+}
+
 .blue{background:#3b82f6;color:white;}
+.green{background:#22c55e;color:white;}
 .red{background:#ef4444;color:white;}
 
-.shop-item{
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-  background:rgba(255,255,255,0.08);
-  padding:10px;
-  border-radius:8px;
+/* GRID SHOP */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
 }
 
-ul{padding-left:20px;}
+.item{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  padding:15px;
+  border-radius:14px;
+  text-align:center;
+  transition:0.2s;
+}
 
-#adminPanel{display:none;}
+.item:hover{
+  transform:translateY(-5px);
+  background:rgba(255,255,255,0.08);
+}
+
+/* TITLE */
+h2,h3{
+  margin:5px 0;
+}
 </style>
 </head>
 
 <body>
 
-<header>🛒 Mini REXZY System</header>
+<div class="nav">
+  <div>⚡ Pro Shop</div>
+  <div>💰 <span id="bal">0</span> ฿</div>
+</div>
 
 <div class="container">
 
 <!-- LOGIN -->
 <div class="card">
-<h3>👤 Login / Register</h3>
-
-<input id="user" placeholder="username">
+<h3>🔐 Login System</h3>
+<input id="email" placeholder="email">
 <input id="pass" type="password" placeholder="password">
-
-<button class="green" onclick="register()">Register</button>
 <button class="blue" onclick="login()">Login</button>
+<button class="green" onclick="register()">Register</button>
 </div>
 
 <!-- WALLET -->
 <div class="card">
-<h3>💰 Wallet: <span id="balance">0</span> ฿</h3>
-<button class="blue" onclick="topup()">💳 เติมเงิน 100฿</button>
+<h3>💳 Wallet</h3>
+<button class="blue" onclick="addMoney()">เติมเงิน +100</button>
 </div>
 
 <!-- SHOP -->
 <div class="card">
-<h3>🛍️ Shop</h3>
+<h3>🛒 Shop</h3>
 
-<div class="shop-item">
-<span>เติมเกม 100฿</span>
-<button class="green" onclick="buy('เติมเกม',100)">ซื้อ</button>
+<div class="grid">
+
+<div class="item">
+<h4>Item A</h4>
+<p>100฿</p>
+<button class="green" onclick="buy('Item A',100)">Buy</button>
 </div>
 
-<div class="shop-item">
-<span>ROV ID 300฿</span>
-<button class="green" onclick="buy('ROV ID',300)">ซื้อ</button>
+<div class="item">
+<h4>Item B</h4>
+<p>200฿</p>
+<button class="green" onclick="buy('Item B',200)">Buy</button>
+</div>
+
+<div class="item">
+<h4>VIP</h4>
+<p>500฿</p>
+<button class="green" onclick="buy('VIP',500)">Buy</button>
 </div>
 
 </div>
 
-<!-- HISTORY -->
-<div class="card">
-<h3>📦 ประวัติการซื้อ</h3>
-<ul id="history"></ul>
 </div>
 
 <!-- ADMIN -->
-<div class="card" id="adminPanel">
+<div class="card" id="admin" style="display:none;">
 <h3>🔐 Admin Panel</h3>
-<button class="blue" onclick="showUsers()">ดูผู้ใช้</button>
-<ul id="userList"></ul>
+<button class="red" onclick="loadUsers()">Load Users</button>
+<ul id="users"></ul>
 </div>
 
 </div>
 
-<script>
-
-let users = JSON.parse(localStorage.getItem("users")) || [];
-let currentUser = null;
-let balance = 0;
-
-// ================= REGISTER =================
-function register(){
-  let u = user.value;
-  let p = pass.value;
-
-  users.push({
-    username:u,
-    password:p,
-    role:"user",
-    balance:0
-  });
-
-  localStorage.setItem("users",JSON.stringify(users));
-  alert("สมัครแล้ว");
-}
-
-// ================= LOGIN =================
-function login(){
-  let u = user.value;
-  let p = pass.value;
-
-  users = JSON.parse(localStorage.getItem("users")) || [];
-
-  let found = users.find(x=>x.username===u && x.password===p);
-
-  if(!found){
-    alert("login ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
-    return;
-  }
-
-  currentUser = found;
-  balance = found.balance;
-
-  document.getElementById("balance").innerText = balance;
-
-  if(found.role==="admin"){
-    document.getElementById("adminPanel").style.display="block";
-  }else{
-    document.getElementById("adminPanel").style.display="none";
-  }
-
-  alert("ยินดีต้อนรับ " + found.role);
-}
-
-// ================= TOPUP =================
-function topup(){
-  balance += 100;
-  updateBalance();
-}
-
-// ================= BUY =================
-function buy(name,price){
-
-  if(balance < price){
-    alert("เงินไม่พอ");
-    return;
-  }
-
-  balance -= price;
-  updateBalance();
-
-  let li = document.createElement("li");
-  li.innerText = name + " - " + price + "฿";
-  history.appendChild(li);
-}
-
-// ================= UPDATE =================
-function updateBalance(){
-  document.getElementById("balance").innerText = balance;
-
-  if(currentUser){
-    currentUser.balance = balance;
-
-    let i = users.findIndex(x=>x.username===currentUser.username);
-    users[i] = currentUser;
-
-    localStorage.setItem("users",JSON.stringify(users));
-  }
-}
-
-// ================= ADMIN =================
-function showUsers(){
-  userList.innerHTML="";
-
-  users.forEach(u=>{
-    let li = document.createElement("li");
-    li.innerText = u.username + " | " + u.role + " | " + u.balance;
-    userList.appendChild(li);
-  });
-}
-
-</script>
-
-</body>
-</html>
+<!-- FIRE
