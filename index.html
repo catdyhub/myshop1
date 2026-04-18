@@ -2,22 +2,22 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Catdy Shop</title>
+<title>Mini REXZY System</title>
 
 <style>
 body{
   margin:0;
-  font-family: Arial;
-  background: linear-gradient(135deg,#0f172a,#1e293b);
+  font-family:Arial;
+  background:#0f172a;
   color:white;
 }
 
 header{
-  padding:25px;
-  text-align:center;
-  font-size:26px;
-  font-weight:bold;
   background:#111827;
+  padding:20px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
 }
 
 .container{
@@ -27,20 +27,18 @@ header{
 }
 
 .card{
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);
   padding:15px;
   margin-bottom:15px;
-  border-radius:12px;
-  backdrop-filter: blur(10px);
+  border-radius:10px;
 }
 
 input{
   width:100%;
   padding:10px;
   margin-top:8px;
+  border-radius:6px;
   border:none;
-  border-radius:8px;
 }
 
 button{
@@ -48,73 +46,65 @@ button{
   padding:10px;
   margin-top:10px;
   border:none;
-  border-radius:8px;
+  border-radius:6px;
   font-weight:bold;
   cursor:pointer;
 }
 
-.btn-green{ background:#22c55e; color:white; }
-.btn-blue{ background:#3b82f6; color:white; }
-.btn-red{ background:#ef4444; color:white; }
+.green{background:#22c55e;color:white;}
+.blue{background:#3b82f6;color:white;}
+.red{background:#ef4444;color:white;}
 
 .shop-item{
-  padding:10px;
-  margin-top:10px;
-  background:rgba(255,255,255,0.08);
-  border-radius:10px;
   display:flex;
   justify-content:space-between;
-  align-items:center;
+  margin-top:10px;
+  background:rgba(255,255,255,0.08);
+  padding:10px;
+  border-radius:8px;
 }
 
-.shop-item button{
-  width:auto;
-  padding:6px 10px;
-}
+ul{padding-left:20px;}
+
+#adminPanel{display:none;}
 </style>
-
 </head>
 
 <body>
 
-<header>
-🛒 Catdy Premium Shop
-</header>
+<header>🛒 Mini REXZY System</header>
 
 <div class="container">
 
 <!-- LOGIN -->
 <div class="card">
-<h3>👤 Login</h3>
-<input placeholder="username">
-<input type="password" placeholder="password">
-<button class="btn-green">Login</button>
-<button class="btn-blue">Register</button>
+<h3>👤 Login / Register</h3>
+
+<input id="user" placeholder="username">
+<input id="pass" type="password" placeholder="password">
+
+<button class="green" onclick="register()">Register</button>
+<button class="blue" onclick="login()">Login</button>
 </div>
 
 <!-- WALLET -->
 <div class="card">
-<h3>💰 Wallet: 0 ฿</h3>
-<button class="btn-blue">💳 เติมเงิน</button>
+<h3>💰 Wallet: <span id="balance">0</span> ฿</h3>
+<button class="blue" onclick="topup()">💳 เติมเงิน 100฿</button>
 </div>
 
 <!-- SHOP -->
 <div class="card">
-<h3>🛍️ สินค้า</h3>
+<h3>🛍️ Shop</h3>
 
 <div class="shop-item">
 <span>เติมเกม 100฿</span>
-<button class="btn-green">ซื้อ</button>
+<button class="green" onclick="buy('เติมเกม',100)">ซื้อ</button>
 </div>
 
 <div class="shop-item">
-<span>ไอดี ROV 300฿</span>
-<button class="btn-green">ซื้อ</button>
-</div>
-
-<div class="shop-item">
-<span>VIP Package 500฿</span>
-<button class="btn-green">ซื้อ</button>
+<span>ROV ID 300฿</span>
+<button class="green" onclick="buy('ROV ID',300)">ซื้อ</button>
 </div>
 
 </div>
@@ -122,15 +112,116 @@ button{
 <!-- HISTORY -->
 <div class="card">
 <h3>📦 ประวัติการซื้อ</h3>
-<p>- ยังไม่มีข้อมูล</p>
+<ul id="history"></ul>
 </div>
 
 <!-- ADMIN -->
-<div class="card">
-<h3>🔐 Admin</h3>
-<button class="btn-red">เข้าสู่ระบบแอดมิน</button>
+<div class="card" id="adminPanel">
+<h3>🔐 Admin Panel</h3>
+<button class="blue" onclick="showUsers()">ดูผู้ใช้</button>
+<ul id="userList"></ul>
 </div>
 
 </div>
 
-</body
+<script>
+
+let users = JSON.parse(localStorage.getItem("users")) || [];
+let currentUser = null;
+let balance = 0;
+
+// ================= REGISTER =================
+function register(){
+  let u = user.value;
+  let p = pass.value;
+
+  users.push({
+    username:u,
+    password:p,
+    role:"user",
+    balance:0
+  });
+
+  localStorage.setItem("users",JSON.stringify(users));
+  alert("สมัครแล้ว");
+}
+
+// ================= LOGIN =================
+function login(){
+  let u = user.value;
+  let p = pass.value;
+
+  users = JSON.parse(localStorage.getItem("users")) || [];
+
+  let found = users.find(x=>x.username===u && x.password===p);
+
+  if(!found){
+    alert("login ไม่ผ่าน");
+    return;
+  }
+
+  currentUser = found;
+  balance = found.balance;
+
+  document.getElementById("balance").innerText = balance;
+
+  if(found.role==="admin"){
+    document.getElementById("adminPanel").style.display="block";
+  }else{
+    document.getElementById("adminPanel").style.display="none";
+  }
+
+  alert("ยินดีต้อนรับ " + found.role);
+}
+
+// ================= TOPUP =================
+function topup(){
+  balance += 100;
+  updateBalance();
+}
+
+// ================= BUY =================
+function buy(name,price){
+
+  if(balance < price){
+    alert("เงินไม่พอ");
+    return;
+  }
+
+  balance -= price;
+  updateBalance();
+
+  let li = document.createElement("li");
+  li.innerText = name + " - " + price + "฿";
+  history.appendChild(li);
+}
+
+// ================= UPDATE =================
+function updateBalance(){
+  document.getElementById("balance").innerText = balance;
+
+  if(currentUser){
+    currentUser.balance = balance;
+
+    let i = users.findIndex(x=>x.username===currentUser.username);
+    users[i] = currentUser;
+
+    localStorage.setItem("users",JSON.stringify(users));
+  }
+}
+
+// ================= ADMIN =================
+function showUsers(){
+  userList.innerHTML="";
+
+  users.forEach(u=>{
+    let li = document.createElement("li");
+    li.innerText = u.username + " | " + u.role + " | " + u.balance;
+    userList.appendChild(li);
+  });
+}
+
+</script>
+
+</body>
+</html>
